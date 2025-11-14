@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anushka & Vansh Podcast</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+        }
+        /* Animated Background */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fbc2eb);
+            background-size: 300% 300%;
+            animation: gradient 6s ease infinite;
+            z-index: -1;
+        }
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        header {
+            text-align: center;
+            padding: 2rem 0;
+            color: white;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+        .audio-visualizer {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .bar {
+            width: 5px;
+            height: 20px;
+            background: white;
+            animation: bounce 0.5s infinite;
+        }
+        .bar:nth-child(2) { animation-delay: 0.1s; }
+        .bar:nth-child(3) { animation-delay: 0.2s; }
+        .bar:nth-child(4) { animation-delay: 0.3s; }
+        .bar:nth-child(5) { animation-delay: 0.4s; }
+        @keyframes bounce {
+            0%, 100% { transform: scaleY(0.5); }
+            50% { transform: scaleY(1); }
+        }
+        .photo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 3rem auto;
+            gap: 2rem;
+        }
+        .photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        .photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .name {
+            text-align: center;
+            margin-top: 0.5rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #555;
+        }
+        .content {
+            text-align: center;
+            padding: 2rem;
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        .content button {
+            background: #ff6f91;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 1rem;
+        }
+        .content button:hover {
+            background: #ff4f73;
+        }
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        /* Popup Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: #fff;
+            width: 90%;
+            max-width: 500px;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            position: relative;
+        }
+        .modal-content h2 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        .modal-content audio {
+            width: 100%;
+            margin-top: 1rem;
+            outline: none;
+        }
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            color: #333;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Anushka & Vansh Podcast</h1>
+        <p>Good vibes, cold coffee, and just a little extra sugar… all because of November!❤</p>
+        <div class="audio-visualizer">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+    </header>
+    <div class="photo-container">
+        <div>
+            <div class="photo">
+                <img src="akansha.jpg.png" alt="Anushka's Photo">
+            </div>
+            <div class="name">Anushka</div>
+        </div>
+        <div>
+            <div class="photo">
+                <img src="IMG_5497.PNG" alt="Vansh's Photo">
+            </div>
+            <div class="name">Vansh</div>
+        </div>
+    </div>
+    <div class="content">
+        <h2>Latest Episodes</h2>
+        <p>Stay tuned for exciting conversations and exclusive stories on our podcast.</p>
+        <button id="open-modal">Listen Now</button>
+    </div>
+    <footer>
+        <p>&copy; 2025 Anushka & Vansh Podcast. All rights reserved.</p>
+    </footer>
+
+    <!-- Modal Popup -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="close-modal">&times;</span>
+            <div id="episodes"></div>
+        </div>
+    </div>
+
+    <script>
+        const episodes = [
+            { title: "Episode 1:Intro Hola!", src: "intro.mp4.mp3" },
+            { title: "Episode 2: Viwes on coffee", src: "EP1.mp4.mp3" },
+             { title: "Episode 3: GOt a muahw guys!! TvT", src: "ep2.mp3" },
+            // { title: "Episode 4: Fav ajj pata hai kya hua? ", src: "ep4.mp3" },
+            // { title: "Episode 5: HIP HOP shit!!", src: "ep5.mp3" }
+        ];
+
+        const modal = document.getElementById('modal');
+        const openModal = document.getElementById('open-modal');
+        const closeModal = document.getElementById('close-modal');
+        const episodesContainer = document.getElementById('episodes');
+
+        openModal.addEventListener('click', () => {
+            episodesContainer.innerHTML = episodes.map(episode => `
+                <h2>${episode.title}</h2>
+                <audio controls>
+                    <source src="${episode.src}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            `).join('');
+            modal.style.display = 'flex';
+        });
+
+        closeModal.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
